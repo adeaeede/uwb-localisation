@@ -1,0 +1,61 @@
+<!-- #TI4: Praktikum
+#UWB Lokalisierung
+#Adrian Gruszczynski
+#Anna/e Eckhardt
+#Tobias Hellwig -->
+
+{%load static%}
+<!doctype html>
+<html lang="de">
+
+<head>
+  <title>3D-Indoor-Lokalisierung</title>
+
+  <meta charset="utf-8">
+  
+  <script src="{%static 'js/jquery.min.js'%}"></script>
+  <script src="{%static 'js/jquery.easing.js' %}"></script>  
+  <script src="{%static 'js/kalman.js'%}"></script>
+  <script src="{%static 'js/sylvester.js' %}"></script>  
+  <script src="{%static 'js/mqttws31.js' %}"></script>
+  <script src="{%static 'js/three.min.js' %}"></script>
+  <script src="{%static 'js/ColladaLoader.js' %}"></script>
+  <script src="{%static 'js/OrbitControls.js' %}"></script>
+  <script src="{%static 'js/dat.gui.js' %}"></script>    
+  <script src="{%static 'js/3d_r.js' %}"></script>
+  <script src="{%static 'js/3d_m.js' %}"></script>  
+
+</head>
+
+<body>
+    <div id="meldung" style="position: absolute; z-index: 1; left: 50px; top: 50px; background:silver">
+        MQTT-Daten
+    </div>
+    <script> 
+    //init_board();
+    init_scene();
+    mqttws_start();
+    animate();
+    var data = {{json.v}}
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function make(){
+      for (var i = 0; i<data.length;i++){
+        onMessageArrived(data[i]);
+        await sleep(200);
+      }
+    }
+    make()
+
+  
+  </script>
+  
+
+
+
+  
+</body>
+
+</html>
